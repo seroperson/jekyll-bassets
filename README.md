@@ -1,16 +1,13 @@
-[![Build Status](https://travis-ci.com/envygeeks/jekyll-assets.svg?branch=master)](https://travis-ci.com/envygeeks/jekyll-assets) [![Maintainability](https://api.codeclimate.com/v1/badges/56f67324553069bf51e7/maintainability)](https://codeclimate.com/github/envygeeks/jekyll-assets/maintainability)
+[![Build Status]](https://travis-ci.com/envygeeks/jekyll-assets) [![Maintainability](https://api.codeclimate.com/v1/badges/56f67324553069bf51e7/maintainability)](https://codeclimate.com/github/envygeeks/jekyll-assets/maintainability)
 
-# Jekyll Assets
+# jekyll-assets-reborn
 
-Jekyll Assets is a drop in [asset
-pipeline](http://guides.rubyonrails.org/asset_pipeline.html) that uses
-[Sprockets](https://github.com/rails/sprockets) to build specifically
-for Jekyll. It utilizes [Sprockets](https://github.com/rails/sprockets),
-and [Jekyll](https://jekyllrb.com) to try and achieve a clean, and
+Jekyll Assets is a drop in [asset pipeline][1] that uses [Sprockets][2] to build specifically
+for Jekyll. It utilizes [Sprockets][2],
+and [Jekyll][3] to try and achieve a clean, and
 extensible assets platform that supports plugins, caching, converting your
 assets. It even supports proxying of said assets in a way that does not
-interfere with either [Sprockets](https://github.com/rails/sprockets),
-or [Jekyll](https://jekyllrb.com), or your own source.  By default you
+interfere with either [Sprockets][2], or [Jekyll][3], or your own source. By default you
 can add Jekyll Assets to your Gemfile, as a plugin, and have it act as
 a drop-in replacement for Jekyll's basic SASS processors, with you only
 having to add it to your Gemfile, and updating your `<img>`, and `<link>`.
@@ -588,3 +585,7 @@ default, but can be disabled by passing "false".
 | ------ | -------------------------- | --------------- |
 | `@doc` | `Nokogiri:: XML::Document` | `image/svg+xml` |
 | `@doc` | `Nokogiri::HTML::Document` | `image/*`       |
+
+[1]: http://guides.rubyonrails.org/asset_pipeline.html
+[2]: https://github.com/rails/sprockets
+[3]: https://jekyllrb.com

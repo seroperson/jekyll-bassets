@@ -54,7 +54,7 @@ describe Jekyll::Assets::HTML do
 
     it "sends a <Doc>" do
       expect(TestHTML1).to receive(:new).with(hash_including({
-        doc: instance_of(Nokogiri::HTML::DocumentFragment),
+        doc: instance_of(Nokogiri::HTML5::DocumentFragment),
       })).and_call_original
     end
   end

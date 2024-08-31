@@ -13,8 +13,7 @@ end
 # Require all our plugins.
 # @return [nil]
 # --
-dir = Pathutil.new(__dir__).join("plugins")
-dir.children do |v|
+Dir.children("#{__dir__}/plugins") do |v|
   unless v.directory?
     require v
   end

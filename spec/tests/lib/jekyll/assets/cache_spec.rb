@@ -21,9 +21,7 @@ describe Jekyll::Assets::Cache do
   describe '#initialize' do
     context 'with an invalid dir' do
       subject do
-        described_class.new(**args({
-          dir: 'bad'
-        }))
+        described_class.new(**args(dir: 'bad'))
       end
 
       it 'must raise' do
@@ -37,7 +35,7 @@ describe Jekyll::Assets::Cache do
     context 'with a new manifest' do
       subject do
         described_class.new(
-          args
+          **args
         )
       end
 

@@ -3,6 +3,7 @@
 # Encoding: utf-8
 
 require "rspec/helper"
+require "digest"
 
 # --
 module Jekyll
@@ -44,17 +45,13 @@ describe Jekyll::Assets::Proxy do
   it "calls" do
     expect_any_instance_of(klass).to(receive(:process))
     expect(klass).to(receive(:new).and_call_original)
-    subject.proxy(asset, {
-      ctx: Thief.ctx, args: args
-    })
+    subject.proxy(asset, ctx: Thief.ctx, args: args)
   end
 
   #
 
   it "returns <Asset>" do
-    out = subject.proxy(asset, {
-      args: args, ctx: Thief.ctx
-    })
+    out = subject.proxy(asset, args: args, ctx: Thief.ctx)
 
     expect(out).to(be_a(Sprockets::Asset))
     path = Pathutil.new(env.in_cache_dir("proxied")).children
@@ -71,13 +68,10 @@ describe Jekyll::Assets::Proxy do
     #
 
     it "copies" do
-      out = subject.proxy(asset, {
-        args: args, ctx: Thief.ctx
-      })
+      out = subject.proxy(asset, args: args, ctx: Thief.ctx)
 
       expect(dir.children.size).to be >= 1
-      expect(Pathutil.new(out.filename).binread).to(eq(Pathutil
-        .new(asset.filename).binread))
+      expect(Digest::MD5.file(out.filename).hexdigest).to(eq(Digest::MD5.file(asset.filename).hexdigest))
     end
   end
 
@@ -90,9 +84,7 @@ describe Jekyll::Assets::Proxy do
 
     it "returns different files" do
       out = subject.proxy(asset, args: args, ctx: Thief.ctx)
-      out2 = subject.proxy(asset, {
-        args: args2, ctx: Thief.ctx
-      })
+      out2 = subject.proxy(asset, args: args2, ctx: Thief.ctx)
 
       expect(out).not_to eq(out2)
     end

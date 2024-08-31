@@ -23,8 +23,7 @@ module Jekyll
         # @return [String]
         # --
         def data_uri
-          "data:#{content_type};base64,#{Rack::Utils.escape(
-            Base64.encode64(to_s))}"
+          "data:#{content_type};base64,#{Rack::Utils.escape(Base64.encode64(to_s))}"
         end
       end
     end

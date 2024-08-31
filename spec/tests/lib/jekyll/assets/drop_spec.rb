@@ -5,9 +5,7 @@
 require "rspec/helper"
 describe Jekyll::Assets::Drop do
   subject do
-    described_class.new("img.png", {
-      jekyll: jekyll,
-    })
+    described_class.new("img.png", jekyll: jekyll)
   end
 
   #

@@ -72,9 +72,9 @@ module Jekyll
           end
 
           out_file = in_file.sub_ext(out_ext)
-          buf = img.write_to_buffer out_ext, write_opts
+          buf = img.write_to_buffer(out_ext, **write_opts)
 
-          @file.binwrite(buf)
+          File.binwrite(@file, buf)
 
           if @file != out_file
             @file.rename(out_file)
@@ -150,7 +150,7 @@ module Jekyll
             end
           end
 
-          newimg = img.thumbnail_image width, resize_opts
+          newimg = img.thumbnail_image width, **resize_opts
 
           if do_fill
             actual_width = newimg.width

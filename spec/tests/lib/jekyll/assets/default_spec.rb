@@ -47,12 +47,12 @@ describe Jekyll::Assets::Default do
 
   describe ".get" do
     subject do
-      described_class.get({
+      described_class.get(
         type: :test,
         args: {
           #
-        },
-      })
+        }
+      )
     end
 
     #
@@ -75,9 +75,7 @@ describe Jekyll::Assets::Default do
 
   describe ".set" do
     it "sets defaults" do
-      subject.set(result = {}, {
-        asset: asset, ctx: Thief.ctx
-      })
+      subject.set(result = {}, asset: asset, ctx: Thief.ctx)
 
       expect(result[:hello]).to eq(:world)
     end

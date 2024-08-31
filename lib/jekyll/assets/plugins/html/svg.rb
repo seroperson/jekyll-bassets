@@ -27,7 +27,6 @@ module Jekyll
           return false unless super
           return false unless args.key?(:inline) &&
               !args.key?(:srcset)
-
           true
         end
       end

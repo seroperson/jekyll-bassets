@@ -6,6 +6,8 @@
 source "https://rubygems.org"
 gemspec
 
+ruby "3.1.6"
+
 s_version = "~> 4.0"
 j_version = "~> 4.0"
 gem "sprockets", ENV["SPROCKETS_VERSION"] || s_version, require: false

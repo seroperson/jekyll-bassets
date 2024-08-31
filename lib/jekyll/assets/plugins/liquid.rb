@@ -25,9 +25,7 @@ module Jekyll
           })
 
           bctx = ::Liquid::Context.new(environment, {}, registers)
-          ctx[:data] = env.parse_liquid(ctx[:data], {
-            ctx: bctx,
-          })
+          ctx[:data] = env.parse_liquid(ctx[:data], ctx: bctx)
         end
       end
 

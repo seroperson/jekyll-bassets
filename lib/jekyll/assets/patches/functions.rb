@@ -3,13 +3,13 @@
 # Author: Jordon Bedwell
 # Encoding: utf-8
 
-require 'sassc'
+# require 'sassc'
 
 module Jekyll
   module Assets
     module Patches
       module SassFunctions
-        Str = SassC::Script::Value::String
+        # Str = SassC::Script::Value::String
 
         # --
         # @param path [String] the path.
@@ -22,7 +22,7 @@ module Jekyll
           path, args = path.value.split(%r!\s+!, 2)
           path, frag = URI.split(path).values_at(5, 8)
           path = sprockets_context.asset_path("#{path} #{args}", options)
-          Str.new([path, frag].compact.join("#"))
+          # Str.new([path, frag].compact.join("#"))
         end
       end
     end

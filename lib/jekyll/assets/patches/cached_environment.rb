@@ -3,6 +3,9 @@
 # Author: Jordon Bedwell
 # Encoding: utf-8
 
+require 'sprockets/resolve'
+require 'sprockets/loader'
+
 module Jekyll
   module Assets
     module Patches
@@ -32,11 +35,21 @@ module Jekyll
         # Wraps around #super and adds environment.
         # @return [Sprockets::Asset]
         # --
-        %i(find_asset find_asset!).each do |v|
-          define_method v do |*a|
-            super(*a).tap do |m|
-              m&.environment = self
-            end
+        define_method 'find_asset' do |*a, **kargs|
+          uri, _ = resolve(*a, **kargs)
+          if uri
+            result = load(uri)
+            result&.environment = self
+            result
+          end
+        end
+
+        define_method 'find_asset!' do |*a, **kargs|
+          uri, _ = resolve!(*a, **kargs)
+          if uri
+            result = load(uri)
+            result&.environment = self
+            result
           end
         end
       end

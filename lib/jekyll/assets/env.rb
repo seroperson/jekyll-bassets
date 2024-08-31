@@ -55,10 +55,10 @@ module Jekyll
       end
 
       # --
-      def find_asset(asset, *args)
-        msg = "Searched for, and rendered #{asset} in %<time>s"
+      def find_asset(*args, **options)
+        msg = "Searched for, and rendered #{args} in %<time>s"
         out = Logger.with_timed_logging msg do
-          super(asset, *args)
+          super(*args, **options)
         end
 
         # We keep track.
@@ -67,10 +67,10 @@ module Jekyll
       end
 
       # --
-      def find_asset!(asset, *args)
-        msg = "Searched for, and rendered #{asset} in %<time>s"
+      def find_asset!(*args)
+        msg = "Searched for, and rendered #{args} in %<time>s"
         out = Logger.with_timed_logging msg do
-          super(asset, *args)
+          super(*args)
         end
 
         # We keep track.

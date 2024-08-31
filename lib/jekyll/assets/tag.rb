@@ -3,9 +3,10 @@
 # Copyright: 2012 - 2020 - ISC License
 # Encoding: utf-8
 
-require 'fastimage'
-require 'liquid/tag/parser'
-require 'nokogiri'
+require "fastimage"
+require "liquid/tag/parser"
+require "nokogiri"
+require "execjs"
 
 module Jekyll
   module Assets
@@ -85,11 +86,12 @@ module Jekyll
 
         env.logger.debug args.to_h(html: false).inspect
         return_or_build(ctx, args: args, asset: asset) do
-          HTML.build(
+          html = HTML.build(
             args: args,
             asset: asset,
             ctx: ctx,
           )
+          html
         end
       #
       rescue Sprockets::FileNotFound => e
@@ -98,10 +100,10 @@ module Jekyll
         )
       #
       rescue ExecJS::RuntimeError => e
-        e_exjs(e,
-          args: args,
-          ctx: ctx
-        )
+       e_exjs(e,
+         args: args,
+         ctx: ctx
+       )
       #
       # @note you can --trace to get this same info
       # Handle errors that Sass ships because Jekyll finds
@@ -109,11 +111,12 @@ module Jekyll
       # need to ship debug info to the user, or they'll
       # never get it. That's not very good.
       #
-      rescue SassC::SyntaxError => e
-        e_sass(e,
-          args: args,
-          ctx: ctx,
-        )
+      # rescue SassC::SyntaxError => e
+      #   e_sass(e,
+      #     args: args,
+      #     ctx: ctx,
+      #   )
+      #
       end
 
       def return_or_build(ctx, args:, asset:)

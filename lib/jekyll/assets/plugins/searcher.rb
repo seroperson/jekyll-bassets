@@ -51,8 +51,8 @@ module Jekyll
           @html ||= begin
             out = @doc.output
             # @see https://github.com/sparklemotion/nokogiri/issues/553
-            good, buggy = Encoding::UTF_8, Encoding::ASCII_8BIT
-            out = out.encode good if out.encoding == buggy
+            # good, buggy = Encoding::UTF_8, Encoding::ASCII_8BIT
+            # out = out.encode good if out.encoding == buggy
             Utils.send((@doc.output.strip =~ %r!<\!doctype\s+!i ? \
               :html : :html_fragment), out)
           end

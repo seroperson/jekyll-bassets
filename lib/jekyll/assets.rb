@@ -3,7 +3,7 @@
 # Author: Jordon Bedwell
 # Encoding: utf-8
 
-require "pathutil"
+require "fileutils"
 require "jekyll/assets/version"
 require "active_support/hash_with_indifferent_access"
 require "active_support/core_ext/hash/indifferent_access"
@@ -15,6 +15,9 @@ require "jekyll"
 
 module Jekyll
   module Assets
+    # Fixes "Encoding::InvalidByteSequenceError - "\xE2" on US-ASCII"
+    Encoding.default_external = 'UTF-8'
+
     autoload :Cache, "jekyll/assets/cache"
     autoload :Config, "jekyll/assets/config"
     autoload :Default, "jekyll/assets/default"
@@ -31,6 +34,7 @@ module Jekyll
     autoload :Tag, "jekyll/assets/tag"
     autoload :Url, "jekyll/assets/url"
     autoload :Utils, "jekyll/assets/utils"
+    Dir.glob(File.join(__dir__, '**', '*.rb'), &method(:require))
 
     # --
     # Setup Jekyll Assets
@@ -41,6 +45,7 @@ module Jekyll
     # --
     def self.setup!
       require_patches!
+      # require_plugins!
       %i(read write).each do |v|
         send(:"#{v}_hook!")
       end
@@ -51,10 +56,41 @@ module Jekyll
     # @return [nil]
     # --
     def self.require_patches!
-      dir = Pathutil.new(__dir__).join("assets", "patches")
-      dir.children do |v|
-        unless v.directory?
-          require v
+      Dir.children("#{__dir__}/assets/patches/").each do |v|
+        unless File.directory?("#{__dir__}/assets/patches/#{v}")
+          require "#{__dir__}/assets/patches/#{v}"
+        end
+      end
+    end
+
+    # --
+    # Require all plugins
+    # @return [nil]
+    # --
+    def self.require_plugins!
+      Dir.children("#{__dir__}/assets/plugins/").each do |v|
+        unless File.directory?("#{__dir__}/assets/plugins/#{v}")
+          require "#{__dir__}/assets/plugins/#{v}"
+        end
+      end
+      Dir.children("#{__dir__}/assets/plugins/html/").each do |v|
+        unless File.directory?("#{__dir__}/assets/plugins/html/#{v}")
+          require "#{__dir__}/assets/plugins/html/#{v}"
+        end
+      end
+      Dir.children("#{__dir__}/assets/plugins/html/defaults/").each do |v|
+        unless File.directory?("#{__dir__}/assets/plugins/html/defaults/#{v}")
+          require "#{__dir__}/assets/plugins/html/defaults/#{v}"
+        end
+      end
+      Dir.children("#{__dir__}/assets/plugins/proxy").each do |v|
+        unless File.directory?("#{__dir__}/assets/plugins/proxy/#{v}")
+          require "#{__dir__}/assets/plugins/proxy/#{v}"
+        end
+      end
+      Dir.children("#{__dir__}/assets/plugins/srcmap").each do |v|
+        unless File.directory?("#{__dir__}/assets/plugins/srcmap/#{v}")
+          require "#{__dir__}/assets/plugins/srcmap/#{v}"
         end
       end
     end

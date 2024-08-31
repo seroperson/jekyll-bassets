@@ -4,6 +4,7 @@
 
 require "forwardable/extended"
 require "nokogiri"
+require "yaml"
 
 module Helpers
   extend Forwardable::Extended
@@ -41,16 +42,14 @@ module Helpers
   end
 
   def self.cleanup_trash
-    Pathutil.new(fixture_path).join("_site").rm_rf
-    %w(.jekyll-metadata .sass-cache .jekyll-cache).each do |v|
-      Pathutil.pwd.join(v).rm_rf
-    end
+    FileUtils.rm_rf("#{fixture_path}/_site")
+    FileUtils.rm_rf(%w(.jekyll-metadata .sass-cache .jekyll-cache))
   end
 
   def self.stub_jekyll_site
     @jekyll ||= begin
       silence_stdout do
-        cfg = Pathutil.new(fixture_path).join("_config.yml").read_yaml
+        cfg = YAML.load_file("#{fixture_path}/_config.yml")
         cfg = Jekyll.configuration(cfg).update({
           "source" => fixture_path.to_s,
           "destination" => File.join(
@@ -58,9 +57,7 @@ module Helpers
           )
         })
 
-        Jekyll::Site.new(cfg).tap(
-          &:process
-        )
+        Jekyll::Site.new(cfg).tap( &:process)
       end
     end
   end

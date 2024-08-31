@@ -105,9 +105,7 @@ module Jekyll
         # @since 3.0.0
         #
         def for?(type:, args:)
-          for_type?(type) && for_args?(
-            args
-          )
+          for_type?(type) && for_args?(args)
         end
 
         #

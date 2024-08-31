@@ -20,7 +20,7 @@ module Jekyll
 
       # --
       def self.html_fragment(*a)
-        Nokogiri::HTML.fragment(*a) do |c|
+        Nokogiri::HTML5.fragment(*a) do |c|
           c.options = Nokogiri::XML::ParseOptions::NONET | \
             Nokogiri::XML::ParseOptions::NOENT
         end
@@ -28,9 +28,9 @@ module Jekyll
 
       # --
       def self.html(*a)
-        Nokogiri::HTML.parse(*a) do |c|
-          c.options = Nokogiri::XML::ParseOptions::NONET | \
-            Nokogiri::XML::ParseOptions::NOENT
+        Nokogiri::HTML5.parse(*a) do |c|
+          # c.options = Nokogiri::XML::ParseOptions::NONET | \
+          #   Nokogiri::XML::ParseOptions::NOENT
         end
       end
 
@@ -117,7 +117,7 @@ module Jekyll
               logical_path: name,
               metadata: {},
               source: "",
-              uri: url,
+              uri: url
             }
           ].compact
         )
@@ -131,16 +131,12 @@ module Jekyll
       # --
       def external_asset(url, args:)
         if args[:asset]&.key?(:type)
-          url_asset(url, {
-            type: args[:asset][:type],
-          })
+          url_asset(url, type: args[:asset][:type])
 
         else
           _, type = Sprockets.match_path_extname(url, Sprockets.mime_exts)
           logger.debug "no type for #{url}, assuming image/*" unless type
-          url_asset(url, {
-            type: type || "image/jpeg",
-          })
+          url_asset(url, type: type || "image/jpeg")
         end
       end
 
@@ -167,15 +163,11 @@ module Jekyll
         case true
         when obj.is_a?(Hash) || obj.is_a?(Liquid::Tag::Parser)
           obj.each_key.with_object(obj) do |k, o|
-            o[k] = parse_liquid(o[k],
-              ctx: ctx,
-            )
+            o[k] = parse_liquid(o[k], ctx: ctx)
           end
         when obj.is_a?(Array)
           obj.map do |v|
-            parse_liquid(v, {
-              ctx: ctx,
-            })
+            parse_liquid(v, ctx: ctx)
           end
         when obj.is_a?(String)
           k = Digest::SHA256.hexdigest(obj)[0, 6]

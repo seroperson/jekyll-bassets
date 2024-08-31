@@ -10,12 +10,7 @@ module Jekyll
         def call(input)
           out = super(input)
           Hook.trigger :asset, :after_compression do |h|
-            !out.is_a?(Hash) \
-              ? out = h.call(input, out, 'application/javascript')
-              : out[:data] = h.call(
-                input, out[:data],
-                'application/javascript'
-              )
+            !out.is_a?(Hash) ? (out = h.call(input, out, 'application/javascript')) : (out[:data] = h.call(input, out[:data], 'application/javascript'))
           end
 
           out

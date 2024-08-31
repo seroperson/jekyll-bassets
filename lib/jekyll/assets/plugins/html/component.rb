@@ -14,9 +14,7 @@ module Jekyll
         # --
         def run
           Nokogiri::HTML::Builder.with(doc) do |d|
-            d.link args.to_h({
-              html: true, skip: HTML.skips
-            })
+            d.link args.to_h(html: true, skip: HTML.skips)
           end
         end
       end
